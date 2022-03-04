@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <title th:text="${title}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h1> Sing in </h1>
+    <form action="/login" enctype="multipart/form-data" method="post">
+        <p>
+            <input type="text" name="id" placeholder="User's id">
+            <input type="submit" value="Send"></p>
+        </p>
+    </form>
+</body>
+</html>
