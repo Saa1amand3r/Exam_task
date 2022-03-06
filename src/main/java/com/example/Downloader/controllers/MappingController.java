@@ -59,7 +59,8 @@ public class MappingController {
     @PostMapping("/addUser")
     public String addUser(@RequestParam MultipartFile image, @RequestParam String username, @RequestParam String password, @RequestParam String email, Model model) throws SQLException, IOException {
         Images avatar = imgcontroller.convert(image);
-        Users newUser = new Users(username, password, email, avatar.getUuid());
+        Users newUser = new Users(username, password, email, avatar.getURI());
+        
         imginterface.save(avatar);
         usersInterface.save(newUser);
         return "registration";
@@ -79,9 +80,10 @@ public class MappingController {
         model.addAttribute("password", user.map(Users::getPassword).orElse(null));
         model.addAttribute("email", user.map(Users::getEmail).orElse(null));
         // we need also give an image to html, but I will do this feature next time
-        byte[] content = usrController.downloadPicture(user.map(Users::getImage_id).orElse(null));
+        // byte[] content = usrController.downloadPicture(user.map(Users::getImage_id).orElse(null));
 
-        model.addAttribute("image", content);
+
+        // model.addAttribute("image", content);
         return "profile";
     }
 }
