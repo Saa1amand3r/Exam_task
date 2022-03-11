@@ -5,6 +5,8 @@ import com.example.Downloader.interfaces.UsersInterface;
 import com.example.Downloader.models.Images;
 import com.example.Downloader.models.Users;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +15,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialBlob;
+
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 public class MappingController {
@@ -30,6 +35,13 @@ public class MappingController {
     private UsersInterface usersInterface;
     @Autowired
     private UsersController usrController;
+    @Value("${upload.path}")
+    private String uploadPath;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    private static final String IMAGE_NAME_QUERY = "SELECT `image_name` FROM `images` WHERE uri=?";
 
     @GetMapping("/")
     public String download(Model model) {
@@ -40,12 +52,21 @@ public class MappingController {
 
     @PostMapping("/")
     public String download(@RequestParam MultipartFile image, Model model) throws IOException, SQLException, URISyntaxException {
-        byte[] byteData = image.getBytes();
-        Blob img = new SerialBlob(byteData);
-        Images avatar = new Images(img);
-        avatar.setImage_name(image.getOriginalFilename());
-        avatar.setImage_size(image.getSize());
-        avatar.setImage_type(image.getContentType());
+        Images avatar = new Images();
+        if (!image.isEmpty()) {
+            // avatar = imgcontroller.saveImage(image);
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()){
+                uploadDir.mkdir();
+            }
+            String uuidFile = UUID.randomUUID().toString();
+            String fileName = uuidFile + "." + image.getOriginalFilename();
+            avatar.setImage_name(fileName);
+            avatar.setImage_size(image.getSize());
+            avatar.setImage_type(image.getContentType());
+            avatar.setURI(uploadDir + "\\" + fileName);
+            image.transferTo(new File(avatar.getURI()));
+        }
         imginterface.save(avatar);
         return "download";
     }
@@ -58,7 +79,21 @@ public class MappingController {
 
     @PostMapping("/addUser")
     public String addUser(@RequestParam MultipartFile image, @RequestParam String username, @RequestParam String password, @RequestParam String email, Model model) throws SQLException, IOException {
-        Images avatar = imgcontroller.convert(image);
+        Images avatar = new Images();
+        if (!image.isEmpty()) {
+            // avatar = imgcontroller.saveImage(image);
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()){
+                uploadDir.mkdir();
+            }
+            String uuidFile = UUID.randomUUID().toString();
+            String fileName = uuidFile + "." + image.getOriginalFilename();
+            avatar.setImage_name(fileName);
+            avatar.setImage_size(image.getSize());
+            avatar.setImage_type(image.getContentType());
+            avatar.setURI(uploadDir + "\\" + fileName);
+            image.transferTo(new File(avatar.getURI()));
+        }
         Users newUser = new Users(username, password, email, avatar.getURI());
         
         imginterface.save(avatar);
@@ -79,11 +114,8 @@ public class MappingController {
         model.addAttribute("username", user.map(Users::getUsername).orElse(null));
         model.addAttribute("password", user.map(Users::getPassword).orElse(null));
         model.addAttribute("email", user.map(Users::getEmail).orElse(null));
-        // we need also give an image to html, but I will do this feature next time
-        // byte[] content = usrController.downloadPicture(user.map(Users::getImage_id).orElse(null));
-
-
-        // model.addAttribute("image", content);
+        String imgName = jdbcTemplate.queryForObject(IMAGE_NAME_QUERY, String.class,user.map(Users::getURI).orElse(null));
+        model.addAttribute("imageName", imgName);
         return "profile";
     }
 }
