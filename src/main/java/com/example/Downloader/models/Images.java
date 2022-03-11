@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.sql.Blob;
 
 @Entity
 public class Images {
@@ -14,7 +13,6 @@ public class Images {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    Blob image;
     String uri;
     String image_type;
     Long image_size;
@@ -22,10 +20,6 @@ public class Images {
 
 //    constructors
     public Images() {
-    }
-
-    public Images(Blob image) {
-        this.image = image;
     }
 
 
@@ -43,14 +37,6 @@ public class Images {
 
     public void setImage_name(String image_name) {
         this.image_name = image_name;
-    }
-
-    public Blob getImage() {
-        return image;
-    }
-
-    public void setImage(Blob image) {
-        this.image = image;
     }
 
     public String getImage_type() {

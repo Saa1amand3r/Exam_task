@@ -9,6 +9,9 @@
     <p th:text="'Hello, ' + ${username} + '!'" />
     <p th:text="'Your password is ' + ${password} + '!'"/>
     <p th:text="'Your email is ' + ${email} + '!'"/>
-    <img src=""/>
+    <div>
+        <img src="../images/${imageName}">
+        <p th:text="${imageName}"/>
+    </div>
 </body>
 </html>

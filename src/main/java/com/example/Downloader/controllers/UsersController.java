@@ -1,6 +1,7 @@
 package com.example.Downloader.controllers;
 
 import com.example.Downloader.interfaces.UsersInterface;
+import com.example.Downloader.models.Images;
 import com.example.Downloader.models.Users;
 import org.springframework.stereotype.Controller;
 
@@ -8,10 +9,10 @@ import java.util.Optional;
 
 @Controller
 public class UsersController implements UsersInterface {
-    @Override
-    public byte[] downloadPicture(String uuid) {
-        return null;
-    }
+    // @Override
+    // public byte[] downloadPicture(String uuid) {
+    //     return null;
+    // }
 
     @Override
     public <S extends Users> S save(S entity) {
@@ -71,5 +72,11 @@ public class UsersController implements UsersInterface {
     @Override
     public void deleteAll() {
 
+    }
+
+    @Override
+    public Images picture(String uri) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
