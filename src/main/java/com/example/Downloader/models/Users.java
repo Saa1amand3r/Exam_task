@@ -13,6 +13,7 @@ public class Users {
 
     private String username, password, email;
     private String uri;
+    private String status;
 
     //constructor
     public Users(String username, String password, String email, String uri) {
@@ -24,6 +25,14 @@ public class Users {
     public Users(){}
 
     //getters and setters
+
+    public String getStatus() {
+        return status;
+    }
+    
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getURI() {
         return uri;
