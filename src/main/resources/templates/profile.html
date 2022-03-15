@@ -10,7 +10,8 @@
     <p th:text="'Your password is ' + ${password} + '!'"/>
     <p th:text="'Your email is ' + ${email} + '!'"/>
     <div>
-        <img src="../images/${imageName}">
+        <!-- проблема в th: -->
+        <img th:src="@{${imageName}}" width = "1000"/>
         <p th:text="${imageName}"/>
     </div>
 </body>

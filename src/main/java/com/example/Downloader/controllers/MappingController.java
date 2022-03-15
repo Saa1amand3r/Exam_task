@@ -115,7 +115,8 @@ public class MappingController {
         model.addAttribute("password", user.map(Users::getPassword).orElse(null));
         model.addAttribute("email", user.map(Users::getEmail).orElse(null));
         String imgName = jdbcTemplate.queryForObject(IMAGE_NAME_QUERY, String.class,user.map(Users::getURI).orElse(null));
-        model.addAttribute("imageName", imgName);
+        String imgAdress = "File://"+ uploadPath + "/"+ imgName;
+        model.addAttribute("imageName", imgAdress);
         return "profile";
     }
 }
