@@ -21,6 +21,7 @@ public class Users {
         this.password = password;
         this.email = email;
         this.uri = uri;
+        this.status = "offline";
     }
     public Users(){}
 

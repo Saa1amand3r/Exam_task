@@ -10,9 +10,10 @@
     <p th:text="'Your password is ' + ${password} + '!'"/>
     <p th:text="'Your email is ' + ${email} + '!'"/>
     <div>
-        <!-- проблема в th: -->
+        <!-- проблема в отсутствие реального сервера -->
         <img th:src="@{${imageName}}" width = "1000"/>
         <p th:text="${imageName}"/>
     </div>
+    <p th:text="'Your status is ' + ${status} + '!'"/>
 </body>
 </html>
