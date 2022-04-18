@@ -12,25 +12,35 @@ public class Users {
     private Long id;
 
     private String username, password, email;
-    private String image_id;
+    private String uri;
+    private String status;
 
     //constructor
-    public Users(String username, String password, String email, String image_id) {
+    public Users(String username, String password, String email, String uri) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.image_id = image_id;
+        this.uri = uri;
+        this.status = "offline";
     }
     public Users(){}
 
     //getters and setters
 
-    public String getImage_id() {
-        return image_id;
+    public String getStatus() {
+        return status;
+    }
+    
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public void setImage_id(String image_id) {
-        this.image_id = image_id;
+    public String getURI() {
+        return uri;
+    }
+
+    public void setURI(String uri) {
+        this.uri = uri;
     }
 
     public String getUsername() {

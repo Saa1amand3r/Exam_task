@@ -4,9 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.net.URI;
-import java.sql.Blob;
-import java.util.UUID;
 
 @Entity
 public class Images {
@@ -16,8 +13,7 @@ public class Images {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    Blob image;
-    String uuid = UUID.randomUUID().toString();
+    String uri;
     String image_type;
     Long image_size;
     String image_name;
@@ -26,14 +22,13 @@ public class Images {
     public Images() {
     }
 
-    public Images(Blob image) {
-        this.image = image;
-    }
-
 
 // getters and setters
-    public String getUuid() {
-        return uuid;
+    public String getURI() {
+        return uri;
+    }
+    public void setURI(String uri) {
+        this.uri = uri;
     }
 
     public String getImage_name() {
@@ -42,14 +37,6 @@ public class Images {
 
     public void setImage_name(String image_name) {
         this.image_name = image_name;
-    }
-
-    public Blob getImage() {
-        return image;
-    }
-
-    public void setImage(Blob image) {
-        this.image = image;
     }
 
     public String getImage_type() {
